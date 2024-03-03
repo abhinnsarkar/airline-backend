@@ -1,7 +1,5 @@
 package com.sarkar.airlinebackend;
 
-import java.net.SocketPermission;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
