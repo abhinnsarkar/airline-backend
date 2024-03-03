@@ -14,18 +14,21 @@ public class CustomerModel {
     private String customerId;
 
     @Column(name = "first_name")
+    @Schema(description = "First Name", example = "John")
     private String firstName;
 
     @Column(name = "middle_name")
+    @Schema(description = "Middle Name", example = "James")
     private String middleName;
 
     @Column(name = "last_name")
+    @Schema(description = "Last Name", example = "Doe")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "johndoe@gmail.com")
     private String email;
 
-    @Column(name = "phone_number")
+    @Column(name = "123-456-7890")
     private String phoneNumber;
 
     @Column(name = "dob")
@@ -37,8 +40,7 @@ public class CustomerModel {
         // Default constructor
     }
 
-    public CustomerModel(String customerId, String firstName, String middleName, String lastName,
-                         String email, String phoneNumber, java.sql.Date dob) {
+    public CustomerModel(String customerId, String firstName, String middleName, String lastName, String email, String phoneNumber, java.sql.Date dob) {
         this.customerId = customerId;
         this.firstName = firstName;
         this.middleName = middleName;

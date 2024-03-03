@@ -1,28 +1,26 @@
-version: "3"
+# version: "3"
 
-services:
-    airline-springproject:
-        build:
-            dockerfile: Dockerfile
-            context: .
+# services:
+#     airline-springproject:
+#         build:
+#             dockerfile: Dockerfile
+#             context: .
 
-        image: airline-backend
+#         image: airline-backend
 
-        ports:
-            - "80:8080"
-        networks:
-            - airline-network
+#         ports:
+#             - "80:8080"
+#         networks:
+#             - airline-network
 
+# #    airline-springproject:
+# #        image: airline-backend:latest
+# #        ports:
+# #            - "80:8080"
+# #        networks:
+# #            - airline-network
+# #
 
-#    airline-springproject:
-#        image: airline-backend:latest
-#        ports:
-#            - "80:8080"
-#        networks:
-#            - airline-network
-#
-
-
-networks:
-    airline-network:
-        external: true
+# networks:
+#     airline-network:
+#         external: true
