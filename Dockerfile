@@ -61,6 +61,7 @@ COPY entrypoint.sh /entrypoint.sh
 # Make the entrypoint script executable
 RUN chmod +x /entrypoint.sh
 
+
 ARG DB_URL_ARG="DB_URL_ARG missing"
 ENV DB_URL=${DB_URL_ARG}
 

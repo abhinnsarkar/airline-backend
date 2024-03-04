@@ -1,26 +1,19 @@
-# version: "3"
+version: "3"
 
-# services:
-#     airline-springproject:
-#         build:
-#             dockerfile: Dockerfile
-#             context: .
 
-#         image: airline-backend
+services:
 
-#         ports:
-#             - "80:8080"
-#         networks:
-#             - airline-network
+  airline-backend-service:
+    build:
+      dockerfile: Dockerfile
+      context: .
+      args:
+        - DB_URL_ARG=jdbc:postgresql://airline-database-service:5432/airline
+        - DB_USER_ARG=abhinn
+        - DB_PASS_ARG=sarkar
 
-# #    airline-springproject:
-# #        image: airline-backend:latest
-# #        ports:
-# #            - "80:8080"
-# #        networks:
-# #            - airline-network
-# #
+    image: airline-backend-dev
+    container_name: airline-backend-service-dev
 
-# networks:
-#     airline-network:
-#         external: true
+    ports:
+      - "80:8080"
