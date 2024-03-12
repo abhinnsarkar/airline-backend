@@ -2,10 +2,10 @@ package com.sarkar.airlinebackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+//import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 @SpringBootApplication
-@EnableSwagger2WebMvc
+//@EnableSwagger2WebMvc
 public class AirlineBackendApplication {
 
 	public static void main(String[] args) {
