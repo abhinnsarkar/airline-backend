@@ -16,3 +16,8 @@ a full backend application for airline reservation systems
             -   total flight duration
             -   remaining seats available
 -
+
+## INFO
+
+-   local runtime uses port 8080
+-   docker runtime uses port 80 meaning just localhost, ie: Swagger accessible at localhost directly(http://localhost/swagger-ui/index.html) no port number needed
