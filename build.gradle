@@ -37,6 +37,8 @@ dependencies {
 //    SWAGGER?
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.4.0' //configs in
 
+//    HOT RELOAD
+    implementation 'org.springframework.boot:spring-boot-devtools'
 
 }
 
