@@ -1,11 +1,11 @@
-package com.sarkar.airlinebackend.repository;
+package com.sarkar.airlinebackend.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.sarkar.airlinebackend.models.CustomerModel;
 
 import java.util.List;
 
-public interface CustomerRepository extends JpaRepository<CustomerModel, String> {
+public interface CustomersRepository extends JpaRepository<CustomerModel, String> {
 
     List<CustomerModel> findByFirstName(String firstName);
 
