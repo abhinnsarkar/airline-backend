@@ -20,4 +20,4 @@ a full backend application for airline reservation systems
 ## INFO
 
 -   local runtime uses port 8080
--   docker runtime uses port 80 meaning just localhost, ie: Swagger accessible at localhost directly(http://localhost/swagger-ui/index.html) no port number needed
+-   docker runtime uses port 80 meaning just localhost, ie: Swagger accessible at localhost directly(http://localhost/swagger) no port number needed
