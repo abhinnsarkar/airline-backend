@@ -39,5 +39,8 @@ public class FlightsEndpoint {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    public List<FlightModel> getFlightsByOriginAirportCode(String airportCode) {
+        return flightsRepository.findFlightsByOriginAirportCode(airportCode);
+    }
 
 }
