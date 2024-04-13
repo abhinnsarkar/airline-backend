@@ -40,6 +40,9 @@ dependencies {
 //    HOT RELOAD
     implementation 'org.springframework.boot:spring-boot-devtools'
 
+//    QUERY WRITING
+    implementation 'mysql:mysql-connector-java:8.0.28'
+
 }
 
 
