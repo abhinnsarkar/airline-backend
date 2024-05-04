@@ -1,2 +1,4 @@
-package com.sarkar.airlinebackend.business.Customer;public class GetCustomersBusiness {
+package com.sarkar.airlinebackend.business.Customer;
+
+public class GetCustomersBusiness {
 }

@@ -1,2 +1,4 @@
-package com.sarkar.airlinebackend.handlers.Route;public class GetRoutesHandler {
+package com.sarkar.airlinebackend.handlers.Route;
+
+public class GetRoutesHandler {
 }

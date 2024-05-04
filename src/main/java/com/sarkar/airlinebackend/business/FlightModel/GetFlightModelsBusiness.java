@@ -1,2 +1,4 @@
-package com.sarkar.airlinebackend.business.FlightModel;public class GetFlightModelsBusiness {
+package com.sarkar.airlinebackend.business.FlightModel;
+
+public class GetFlightModelsBusiness {
 }

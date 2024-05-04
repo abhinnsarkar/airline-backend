@@ -1,17 +1,16 @@
+// ADJUSTED FOR DDL2
 package com.sarkar.airlinebackend.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.sarkar.airlinebackend.models.CustomerModel;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface CustomersRepository extends JpaRepository<CustomerModel, String> {
+@Repository
+public interface CustomerRepository extends JpaRepository<CustomerModel, String> {
 
-    List<CustomerModel> findByFirstName(String firstName);
-
-    List<CustomerModel> findByLastName(String lastName);
-
-    List<CustomerModel> findByEmail(String email);
-
-    // You can add more query methods based on your requirements
+    List<CustomerModel> findById(UUID customerId);
+    List<CustomerModel> findByName(String customerName);
 }

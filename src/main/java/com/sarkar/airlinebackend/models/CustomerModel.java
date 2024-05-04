@@ -8,20 +8,20 @@ import java.sql.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "Customer")
 public class CustomerModel {
 
     @Id
-    @Column(name = "Customer ID")
-    @Schema(description = "Customer ID", example = "12345")
+    @Column(name = "customer_id")
+    @Schema(description = "Customer ID", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
     private UUID customerId;
 
     @Column(name = "customer_name")
-    @Schema(description = "Customer Name")
+    @Schema(description = "Customer Name", example = "John Doe")
     private String customerName;
 
     @Column(name = "dob")
-    @Schema(description = "Date of Birth")
+    @Schema(description = "Date of Birth", example = "2015-03-15")
     private Date dob;
 
     public CustomerModel() {

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "Flight Schedule")
-public class FlightSchduleModel {
+public class FlightScheduleModel {
 
     @Id
     @Column(name = "flight_schedule_id")
@@ -29,10 +29,10 @@ public class FlightSchduleModel {
     @Schema(description = "Departure Time", example = "15:30:00")
     private java.sql.Time departureTime;
 
-    public FlightSchduleModel() {
+    public FlightScheduleModel() {
     }
 
-    public FlightSchduleModel(UUID flightScheduleId, UUID flightId, Date departureDate, Time departureTime) {
+    public FlightScheduleModel(UUID flightScheduleId, UUID flightId, Date departureDate, Time departureTime) {
         this.flightScheduleId = flightScheduleId;
         this.flightId = flightId;
         this.departureDate = departureDate;

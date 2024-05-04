@@ -1,2 +1,4 @@
-package com.sarkar.airlinebackend.handlers.ModelSeat;public class GetModelSeatsHandler {
+package com.sarkar.airlinebackend.handlers.ModelSeat;
+
+public class GetModelSeatsHandler {
 }

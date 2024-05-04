@@ -4,39 +4,45 @@ package com.sarkar.airlinebackend.models;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Flight Schedule")
-public class FlightSchduleModel {
+@Table(name = "Seat Allocation")
+public class SeatAllocationModel {
 
     @Id
+    @Column(name = "seat_allocation_id")
+    @Schema(description = "Seat Allocation Id", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
+    private UUID seatAllocationId;;
+
     @Column(name = "flight_schedule_id")
     @Schema(description = "Flight Schedule ID", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
     private UUID flightScheduleId;
 
-    @Column(name = "flight_id")
-    @Schema(description = "Flight Id", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
-    private UUID flightId;
+    @Column(name = "model_seat_id")
+    @Schema(description = "Model Seat Id", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
+    private UUID modelSeatId;
 
-    @Column(name = "departure_date")
-    @Schema(description = "Departure Date", example = "2005-03-15")
-    private java.sql.Date departureDate;
+    @Column(name = "available")
+    @Schema(description = "Available Seat", example = "True")
+    private boolean available;
 
-    @Column(name = "departure_time")
-    @Schema(description = "Departure Time", example = "15:30:00")
-    private java.sql.Time departureTime;
-
-    public FlightSchduleModel() {
+    public SeatAllocationModel() {
     }
 
-    public FlightSchduleModel(UUID flightScheduleId, UUID flightId, Date departureDate, Time departureTime) {
+    public SeatAllocationModel(UUID seatAllocationId, UUID flightScheduleId, UUID modelSeatId, boolean available) {
+        this.seatAllocationId = seatAllocationId;
         this.flightScheduleId = flightScheduleId;
-        this.flightId = flightId;
-        this.departureDate = departureDate;
-        this.departureTime = departureTime;
+        this.modelSeatId = modelSeatId;
+        this.available = available;
+    }
+
+    public UUID getSeatAllocationId() {
+        return seatAllocationId;
+    }
+
+    public void setSeatAllocationId(UUID seatAllocationId) {
+        this.seatAllocationId = seatAllocationId;
     }
 
     public UUID getFlightScheduleId() {
@@ -47,27 +53,19 @@ public class FlightSchduleModel {
         this.flightScheduleId = flightScheduleId;
     }
 
-    public UUID getFlightId() {
-        return flightId;
+    public UUID getModelSeatId() {
+        return modelSeatId;
     }
 
-    public void setFlightId(UUID flightId) {
-        this.flightId = flightId;
+    public void setModelSeatId(UUID modelSeatId) {
+        this.modelSeatId = modelSeatId;
     }
 
-    public Date getDepartureDate() {
-        return departureDate;
+    public boolean isAvailable() {
+        return available;
     }
 
-    public void setDepartureDate(Date departureDate) {
-        this.departureDate = departureDate;
-    }
-
-    public Time getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(Time departureTime) {
-        this.departureTime = departureTime;
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }

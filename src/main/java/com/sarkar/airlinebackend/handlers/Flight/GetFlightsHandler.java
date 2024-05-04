@@ -1,2 +1,4 @@
-package com.sarkar.airlinebackend.handlers.Flight;public class GetFlightsHandler {
+package com.sarkar.airlinebackend.handlers.Flight;
+
+public class GetFlightsHandler {
 }

@@ -1,7 +1,6 @@
 package com.sarkar.airlinebackend.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.sarkar.airlinebackend.models.AirportModel;
 
 import java.util.List;
 

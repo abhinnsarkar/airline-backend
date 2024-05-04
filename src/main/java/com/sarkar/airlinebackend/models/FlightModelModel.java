@@ -4,14 +4,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "flight_model")
+@Table(name = "FlightModel")
 public class FlightModelModel {
     @Id
-    @Column(name = "Flight Model")
+    @Column(name = "flight_model_name_key")
     @Schema(description = "Flight Model Name", example = "Boeing 737")
     private String flightModelNameKey;;
 
-    @Column(name = "Manufacturer Name")
+    @Column(name = "manufacturer_name")
     @Schema(description = "Manufacturer", example = "Boeing")
     private String manufacturer_name;;
 

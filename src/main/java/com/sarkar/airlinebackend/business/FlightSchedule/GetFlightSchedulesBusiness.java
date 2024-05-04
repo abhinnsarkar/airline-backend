@@ -1,2 +1,4 @@
-package com.sarkar.airlinebackend.business.FlightSchedule;public class GetFlightSchedulesBusiness {
+package com.sarkar.airlinebackend.business.FlightSchedule;
+
+public class GetFlightSchedulesBusiness {
 }

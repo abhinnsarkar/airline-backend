@@ -5,16 +5,19 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "route")
+@Table(name = "Route")
 public class RouteModel {
 
     @Id
+    @Column(name = "route_id")
     @Schema(description = "Route ID", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
     private UUID routeId;
 
+    @Column(name = "origin_airport_code")
     @Schema(description = "Origin Airport Code", example = "YVR")
     private String originAirportCode;
 
+    @Column(name = "destination_airport_code")
     @Schema(description = "Destination Airport Code", example = "LAX")
     private String destinationAirportCode;
 
