@@ -18,7 +18,7 @@ public class FlightModel {
 
     @Column(name = "flight_number")
     @Schema(description = "Flight Number", example = "AS105")
-    private UUID flightNumber;
+    private String flightNumber;
 
     @Column(name = "route_id")
     @Schema(description = "Route ID", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
@@ -31,7 +31,7 @@ public class FlightModel {
     public FlightModel() {
     }
 
-    public FlightModel(UUID flightId, UUID flightNumber, UUID routeId, String flightModelNameKey) {
+    public FlightModel(UUID flightId, String flightNumber, UUID routeId, String flightModelNameKey) {
         this.flightId = flightId;
         this.flightNumber = flightNumber;
         this.routeId = routeId;
@@ -46,11 +46,11 @@ public class FlightModel {
         this.flightId = flightId;
     }
 
-    public UUID getFlightNumber() {
+    public String getFlightNumber() {
         return flightNumber;
     }
 
-    public void setFlightNumber(UUID flightNumber) {
+    public void setFlightNumber(String flightNumber) {
         this.flightNumber = flightNumber;
     }
 

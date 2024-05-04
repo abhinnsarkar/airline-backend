@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public class Customer {
+public class CustomerDataService {
 
     private JdbcTemplate template;
 

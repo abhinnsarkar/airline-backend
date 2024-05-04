@@ -1,4 +1,4 @@
-package com.sarkar.airlinebackend.business.ModelSeat;
+package com.sarkar.airlinebackend.services.business.ModelSeat;
 
 import org.springframework.stereotype.Service;
 

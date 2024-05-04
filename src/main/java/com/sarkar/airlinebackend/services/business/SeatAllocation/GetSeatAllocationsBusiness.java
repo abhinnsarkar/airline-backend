@@ -1,4 +1,4 @@
-package com.sarkar.airlinebackend.business.SeatAllocation;
+package com.sarkar.airlinebackend.services.business.SeatAllocation;
 
 import org.springframework.stereotype.Service;
 

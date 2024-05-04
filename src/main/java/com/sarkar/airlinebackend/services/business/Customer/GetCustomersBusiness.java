@@ -1,4 +1,4 @@
-package com.sarkar.airlinebackend.business.Customer;
+package com.sarkar.airlinebackend.services.business.Customer;
 
 import com.sarkar.airlinebackend.models.CustomerModel;
 import com.sarkar.airlinebackend.services.data.CustomerDataService;

@@ -1,4 +1,4 @@
-package com.sarkar.airlinebackend.business.Route;
+package com.sarkar.airlinebackend.services.business.Route;
 
 import org.springframework.stereotype.Service;
 

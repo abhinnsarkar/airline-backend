@@ -1,4 +1,4 @@
-package com.sarkar.airlinebackend.business.FlightSchedule;
+package com.sarkar.airlinebackend.services.business.FlightSchedule;
 
 import org.springframework.stereotype.Service;
 
