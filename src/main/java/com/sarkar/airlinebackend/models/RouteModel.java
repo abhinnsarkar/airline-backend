@@ -1,20 +1,18 @@
 package com.sarkar.airlinebackend.models;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "routes")
+@Table(name = "route")
 public class RouteModel {
 
     @Id
     @Schema(description = "Route ID", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
     private UUID routeId;
 
-    @Schema(description = "Origin Airport Code", example = "YYZ")
+    @Schema(description = "Origin Airport Code", example = "YVR")
     private String originAirportCode;
 
     @Schema(description = "Destination Airport Code", example = "LAX")
