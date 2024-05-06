@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GetCustomersBusiness {
+public class GetCustomersServiceBusiness {
 
     @Autowired
     private CustomerDataService customerDataService;
