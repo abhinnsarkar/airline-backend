@@ -18,7 +18,7 @@ public class CustomerController {
 
     @GetMapping(value = "")
     public List<CustomerModel> getCustomers() {
-        return getCustomersHandler.getCustomers();
+        return getCustomersHandler.handle();
     }
 }
 

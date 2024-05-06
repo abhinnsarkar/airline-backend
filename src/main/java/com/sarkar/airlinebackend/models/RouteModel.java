@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Route")
+@Table(name = "route")
 public class RouteModel {
 
     @Id

@@ -1,2 +1,8 @@
-package com.sarkar.airlinebackend.handlers.FlightSchedule;public class PostMonthFlightSchedule {
+package com.sarkar.airlinebackend.handlers.FlightSchedule;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class PostMonthFlightScheduleHandler {
+
 }

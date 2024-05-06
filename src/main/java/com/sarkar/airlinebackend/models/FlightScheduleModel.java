@@ -4,12 +4,12 @@ package com.sarkar.airlinebackend.models;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Flight Schedule")
+@Table(name = "flight_schedule")
 public class FlightScheduleModel {
 
     @Id
@@ -23,7 +23,7 @@ public class FlightScheduleModel {
 
     @Column(name = "departure_date")
     @Schema(description = "Departure Date", example = "2005-03-15")
-    private java.sql.Date departureDate;
+    private java.util.Date departureDate;
 
     @Column(name = "departure_time")
     @Schema(description = "Departure Time", example = "15:30:00")

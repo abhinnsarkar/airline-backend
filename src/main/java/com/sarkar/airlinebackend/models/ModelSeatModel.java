@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "ModelSeat")
+@Table(name = "model_seat")
 public class ModelSeatModel {
 
     @Id

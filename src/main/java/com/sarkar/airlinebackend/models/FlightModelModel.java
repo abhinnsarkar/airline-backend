@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "FlightModel")
+@Table(name = "flight_model")
 public class FlightModelModel {
     @Id
     @Column(name = "flight_model_name_key")

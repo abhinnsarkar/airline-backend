@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "customer")
 public class CustomerModel {
 
     @Id

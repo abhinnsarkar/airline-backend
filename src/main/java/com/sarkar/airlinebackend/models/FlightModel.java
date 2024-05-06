@@ -8,7 +8,7 @@ import java.sql.Time;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Flight")
+@Table(name = "flight")
 public class FlightModel {
 
     @Id

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Seat Allocation")
+@Table(name = "seat_allocation")
 public class SeatAllocationModel {
 
     @Id
