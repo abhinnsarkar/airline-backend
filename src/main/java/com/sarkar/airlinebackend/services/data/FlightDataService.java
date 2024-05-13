@@ -46,4 +46,30 @@ public class FlightDataService {
         return template.query(sql, mapper);
 
     }
+
+    public String getModelNameKeyFromFlightId(UUID flightId) {
+
+        String sql = "SELECT flight_model_name_key FROM flight WHERE flight_id = ?";
+
+        RowMapper<FlightModel> mapper = new RowMapper<FlightModel>(){
+
+            @Override
+            public FlightModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+                FlightModel flight = new FlightModel();
+
+                flight.setFlightId((UUID) rs.getObject("flight_id", UUID.class));
+                flight.setFlightNumber(rs.getString("flight_number"));
+                flight.setRouteId((UUID) rs.getObject("route_id", UUID.class));
+                flight.setFlightModelNameKey(rs.getString("flight_model_name_key"));
+
+                return flight;
+            }
+
+        };
+
+        var flight = template.query(sql, mapper);
+
+        return flight.getFirst().getFlightModelNameKey();
+    }
 }
