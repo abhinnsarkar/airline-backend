@@ -8,48 +8,34 @@ import java.sql.Time;
 import java.util.UUID;
 
 @Entity
-@Table(name = "flights")
+@Table(name = "flight")
 public class FlightModel {
 
     @Id
     @Column(name = "flight_id")
     @Schema(description = "Flight ID", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
-    private UUID flightId;;
+    private UUID flightId;
 
     @Column(name = "flight_number")
-    @Schema(description = "Flight Number", example = "12345")
+    @Schema(description = "Flight Number", example = "AS105")
     private String flightNumber;
 
     @Column(name = "route_id")
-    @Schema(description = "Route Id", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
-    private UUID routeId;;
+    @Schema(description = "Route ID", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
+    private UUID routeId;
 
     @Column(name = "flight_model")
-    @Schema(description = "Flight Model", example = "Boeing")
-    private String flightModel;
-
-    @Column(name = "departure_date")
-    @Schema(description = "Departure Date", example = "2005-03-15")
-    private java.sql.Date departureDate;
-
-    @Column(name = "departure_time")
-    @Schema(description = "Departure Time", example = "15:30:00")
-    private java.sql.Time departureTime;
-
-
-    // Constructors, getters, and setters
+    @Schema(description = "Flight Model Name", example = "Boeing 737")
+    private String flightModelNameKey;
 
     public FlightModel() {
-        // Default constructor
     }
 
-    public FlightModel(UUID flightId, String flightNumber, UUID routeId, String flightModel, Date departureDate, Time departureTime) {
+    public FlightModel(UUID flightId, String flightNumber, UUID routeId, String flightModelNameKey) {
         this.flightId = flightId;
         this.flightNumber = flightNumber;
         this.routeId = routeId;
-        this.flightModel = flightModel;
-        this.departureDate = departureDate;
-        this.departureTime = departureTime;
+        this.flightModelNameKey = flightModelNameKey;
     }
 
     public UUID getFlightId() {
@@ -76,27 +62,11 @@ public class FlightModel {
         this.routeId = routeId;
     }
 
-    public String getFlightModel() {
-        return flightModel;
+    public String getFlightModelNameKey() {
+        return flightModelNameKey;
     }
 
-    public void setFlightModel(String flightModel) {
-        this.flightModel = flightModel;
-    }
-
-    public Date getDepartureDate() {
-        return departureDate;
-    }
-
-    public void setDepartureDate(Date departureDate) {
-        this.departureDate = departureDate;
-    }
-
-    public Time getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(Time departureTime) {
-        this.departureTime = departureTime;
+    public void setFlightModelNameKey(String flightModelNameKey) {
+        this.flightModelNameKey = flightModelNameKey;
     }
 }
