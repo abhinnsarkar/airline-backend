@@ -43,7 +43,7 @@ public class FlightDataService {
 
         };
 
-        return template.query(sql, mapper);
+        return template.query(sql, mapper, flightNumber);
 
     }
 

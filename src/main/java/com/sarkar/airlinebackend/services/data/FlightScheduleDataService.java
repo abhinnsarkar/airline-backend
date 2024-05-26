@@ -26,14 +26,21 @@ public class FlightScheduleDataService {
 
 
 
-    public FlightScheduleModel addFlightSchedule(UUID flightId, Date departureDate, Time departureTime) {
-
-        var flightScheduleId = UUID.randomUUID();
+    public Boolean addFlightSchedule(FlightScheduleModel flightScheduleModel) {
 
         String sql = "INSERT INTO flight_schedule (flight_schedule_id, flight_id, departure_date, departure_time) VALUES (?, ?, ?, ?)";
 
-        template.update(sql, flightScheduleId.toString(), flightId, departureDate, departureTime);
-        return new FlightScheduleModel(flightScheduleId, flightId, departureDate, departureTime);
+        var result = template.update(sql,
+                flightScheduleModel.getFlightScheduleId(),
+                flightScheduleModel.getFlightId(),
+                flightScheduleModel.getDepartureDate(),
+                flightScheduleModel.getDepartureTime());
+
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -64,7 +71,7 @@ public class FlightScheduleDataService {
 
         };
 
-        var flightSchedule = template.query(sql, mapper);
+        var flightSchedule = template.query(sql, mapper, flightScheduleId.toString());
 
         return flightSchedule.getFirst().getFlightId();
 
