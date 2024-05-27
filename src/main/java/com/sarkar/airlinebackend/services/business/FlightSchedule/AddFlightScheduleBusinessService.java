@@ -21,10 +21,6 @@ import static java.lang.Integer.parseInt;
 @Service
 public class AddFlightScheduleBusinessService {
 
-//    TODO: Add a flight schedule
-//
-
-
     @Autowired
     private FlightDataService flightDataService;
 
@@ -45,11 +41,11 @@ public class AddFlightScheduleBusinessService {
 
 
 
-    public List<FlightScheduleModel> addFlightSchedule(String flightNumber, String month) {
+    public List<FlightScheduleModel> addFlightSchedule(String flightNumber, Integer month, Integer year) {
 
 
 
-        List<FlightScheduleModel> flightSchedules = this.MakeNewScheduleForFlightNumberAndMonth(flightNumber, month);
+        List<FlightScheduleModel> flightSchedules = this.makeNewScheduleForFlightNumberMonthYear(flightNumber, month, year);
 
 
 
@@ -94,7 +90,7 @@ public class AddFlightScheduleBusinessService {
      * @param  monthNum         the month for which to generate a schedule
      * @return               a list of FlightScheduleModel objects representing the new schedule
      */
-    private List<FlightScheduleModel> MakeNewScheduleForFlightNumberAndMonth(String flightNumber, String monthNum) {
+    private List<FlightScheduleModel> makeNewScheduleForFlightNumberMonthYear(String flightNumber, Integer monthNum, Integer year) {
 
 //      go through flight table and find the flight with given number
 //      get its id and model name
@@ -106,21 +102,22 @@ public class AddFlightScheduleBusinessService {
             throw new IllegalArgumentException("Flight Error");
         }
 
-
+//        TODO Find some method to add time for departure
         var defaultDepartureTime = new Time(12, 0, 0);
 
 
-        int month = Integer.parseInt(monthNum);
-        int currentYear = Year.now().getValue();
+//        int month = Integer.parseInt(monthNum);
+        int selectedMonth = monthNum;
+        int selectedYear = year;
 
 
-        YearMonth yearMonthObject = YearMonth.of(currentYear, month);
+        YearMonth yearMonthObject = YearMonth.of(selectedYear, selectedMonth);
         int daysInMonth = yearMonthObject.lengthOfMonth();
 
         List<FlightScheduleModel> flightSchedules = new ArrayList<>();
 
         for (int day = 1; day <= daysInMonth; day++) {
-            LocalDate localDate = LocalDate.of(currentYear, month, day);
+            LocalDate localDate = LocalDate.of(selectedYear, selectedMonth, day);
             Date departureDate = Date.valueOf(localDate);
 
             var flightSchedule = new FlightScheduleModel(UUID.randomUUID(), flightModels.getFirst().getFlightId(), departureDate, defaultDepartureTime);

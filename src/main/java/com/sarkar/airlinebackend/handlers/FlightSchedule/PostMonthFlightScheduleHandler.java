@@ -14,8 +14,8 @@ public class PostMonthFlightScheduleHandler {
     AddFlightScheduleBusinessService addFlightScheduleBusinessService;
 
 
-    public List<FlightScheduleModel> handle(String flightNumber, String month) {
-        return addFlightScheduleBusinessService.addFlightSchedule(flightNumber, month);
+    public List<FlightScheduleModel> handle(String flightNumber, Integer month, Integer year) {
+        return addFlightScheduleBusinessService.addFlightSchedule(flightNumber, month, year);
 
 
     }
