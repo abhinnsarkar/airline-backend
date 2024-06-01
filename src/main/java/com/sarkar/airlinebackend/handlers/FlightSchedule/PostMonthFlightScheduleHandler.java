@@ -1,5 +1,6 @@
 package com.sarkar.airlinebackend.handlers.FlightSchedule;
 
+import com.sarkar.airlinebackend.Responses.Response;
 import com.sarkar.airlinebackend.models.FlightScheduleModel;
 import com.sarkar.airlinebackend.services.business.FlightSchedule.AddFlightScheduleBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,8 @@ public class PostMonthFlightScheduleHandler {
     AddFlightScheduleBusinessService addFlightScheduleBusinessService;
 
 
-    public List<FlightScheduleModel> handle(String flightNumber, Integer month, Integer year) {
+    public Response<List<FlightScheduleModel>> handle(String flightNumber, Integer month, Integer year) {
         return addFlightScheduleBusinessService.addFlightSchedule(flightNumber, month, year);
-
-
     }
 
 }

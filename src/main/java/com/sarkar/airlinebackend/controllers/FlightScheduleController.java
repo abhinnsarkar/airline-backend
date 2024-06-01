@@ -1,5 +1,7 @@
 package com.sarkar.airlinebackend.controllers;
 
+import com.sarkar.airlinebackend.Responses.Response;
+import com.sarkar.airlinebackend.Responses.ReturnCode;
 import com.sarkar.airlinebackend.handlers.FlightModel.GetFlightModelsHandler;
 import com.sarkar.airlinebackend.handlers.FlightSchedule.GetFlightSchedulesHandler;
 import com.sarkar.airlinebackend.handlers.FlightSchedule.PostMonthFlightScheduleHandler;
@@ -10,6 +12,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +33,7 @@ public class FlightScheduleController {
     @PostMapping(value = "/month")
     @Validated
     @Operation(summary = "add a flight schedule for every day of the month based on provided flight number and month and year")
-    public List<FlightScheduleModel> addMonthlySchedule
+    public ResponseEntity<Response<List<FlightScheduleModel>>> addMonthlySchedule
             (@RequestParam String flightNumber,
              @RequestParam
              @Min(value = 1, message = "Minimum month is 1")
@@ -46,7 +50,16 @@ public class FlightScheduleController {
             throw new IllegalArgumentException("Year must be between " + currentYear + " and 9999.");
         }
 
-        return postMonthFlightScheduleHandler.handle(flightNumber, month, year);
+        var result = postMonthFlightScheduleHandler.handle(flightNumber, month, year);
+
+        HttpStatus httpStatus = result.getReturnCode() == ReturnCode.SUCCESS ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+
+        Response<List<FlightScheduleModel>> response = new Response<>();
+        response.setData(result.getData());
+        response.setReturnCode(result.getReturnCode());
+        response.setMessages(result.getMessages()); // Assuming only one message is set
+
+        return ResponseEntity.status(httpStatus).body(response);
 
     }
 }

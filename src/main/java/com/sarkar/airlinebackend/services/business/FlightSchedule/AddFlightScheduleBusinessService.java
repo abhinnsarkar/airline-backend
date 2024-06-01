@@ -1,5 +1,7 @@
 package com.sarkar.airlinebackend.services.business.FlightSchedule;
 
+import com.sarkar.airlinebackend.Responses.Response;
+import com.sarkar.airlinebackend.Responses.ReturnCode;
 import com.sarkar.airlinebackend.models.FlightScheduleModel;
 import com.sarkar.airlinebackend.models.SeatAllocationModel;
 import com.sarkar.airlinebackend.services.data.*;
@@ -41,47 +43,31 @@ public class AddFlightScheduleBusinessService {
 
 
 
-    public List<FlightScheduleModel> addFlightSchedule(String flightNumber, Integer month, Integer year) {
+    public Response<List<FlightScheduleModel>> addFlightSchedule(String flightNumber, Integer month, Integer year) {
+
+        Response<List<FlightScheduleModel>> flightSchedulesResponse = this.makeNewScheduleForFlightNumberMonthYear(flightNumber, month, year);
+
+        var response = new Response<List<FlightScheduleModel>>();
+
+        if (flightSchedulesResponse.getReturnCode() != ReturnCode.SUCCESS) {
+
+            response.setReturnCode(flightSchedulesResponse.getReturnCode());
+//            response.setData(false));
+            response.addMessage(flightSchedulesResponse.getMessages().getFirst());
+            return response;
+        }
 
 
 
-        List<FlightScheduleModel> flightSchedules = this.makeNewScheduleForFlightNumberMonthYear(flightNumber, month, year);
+        Response<List<UUID>> emptySeatIds = this.generalDataService.getSeatsByFlightNumber(flightNumber);
+
+        var allocatedSeats = this.createSeatAllocationsForFlightSchedules(flightSchedulesResponse.getData(), emptySeatIds.getData());
 
 
-
-        List<UUID> emptySeatIds = this.generalDataService.getSeatsByFlightNumber(flightNumber);
-
-        var allocatedSeats = this.createSeatAllocationsForFlightSchedules(flightSchedules, emptySeatIds);
-
-
-        return flightSchedules;
+        return flightSchedulesResponse;
 
     }
 
-
-//
-//    /**
-//     * Allocates seats as available.
-//     *
-//     * @return  true if the seats were successfully allocated, false otherwise
-//     */
-//    private Boolean AllocateSeatsAsAvailable(UUID flightScheduleId) {
-//////    get flight id from flightScheduleId
-//////    from flight_id go to flight table and get model name key
-//////    go through model seat table and get all seats for that model name key
-//////    for the if of every retrieved model seat, set available to true
-////
-////        UUID flightId = flightScheduleDataService.getFlightIdFromFlightScheduleId(flightScheduleId);
-////        String flightModelNameKey = flightDataService.getModelNameKeyFromFlightId(flightId);
-////        List<ModelSeatModel> modelSeats = modelSeatDataService.getAllSeatsByModelNameKey(flightModelNameKey);
-////
-////        for (ModelSeatModel modelSeat : modelSeats) {
-////
-////            seatAllocationDataService.setSeatToAvailable(flightScheduleId, modelSeat.getModelSeatId());
-////        }
-////
-//    return true;
-//    }
 
     /**
      * Generates a new schedule for a given flight number and month.
@@ -90,7 +76,7 @@ public class AddFlightScheduleBusinessService {
      * @param  monthNum         the month for which to generate a schedule
      * @return               a list of FlightScheduleModel objects representing the new schedule
      */
-    private List<FlightScheduleModel> makeNewScheduleForFlightNumberMonthYear(String flightNumber, Integer monthNum, Integer year) {
+    private Response<List<FlightScheduleModel>> makeNewScheduleForFlightNumberMonthYear(String flightNumber, Integer monthNum, Integer year) {
 
 //      go through flight table and find the flight with given number
 //      get its id and model name
@@ -115,6 +101,7 @@ public class AddFlightScheduleBusinessService {
         int daysInMonth = yearMonthObject.lengthOfMonth();
 
         List<FlightScheduleModel> flightSchedules = new ArrayList<>();
+        boolean hasError = false; // Flag to track if any error occurs
 
         for (int day = 1; day <= daysInMonth; day++) {
             LocalDate localDate = LocalDate.of(selectedYear, selectedMonth, day);
@@ -122,13 +109,30 @@ public class AddFlightScheduleBusinessService {
 
             var flightSchedule = new FlightScheduleModel(UUID.randomUUID(), flightModels.getFirst().getFlightId(), departureDate, defaultDepartureTime);
 
-            flightScheduleDataService.addFlightSchedule(flightSchedule);
+            var result = flightScheduleDataService.addFlightSchedule(flightSchedule);
 
+
+            // Check if the result has an error return code
+            if (result.getReturnCode() == ReturnCode.ERROR) {
+                hasError = true; // Set flag to true if error occurs
+            }
 
             flightSchedules.add(flightSchedule);
         }
 
-        return flightSchedules;
+        var response = new Response<List<FlightScheduleModel>>();
+        response.setData(flightSchedules);
+
+        // Set return code based on the flag
+        if (hasError) {
+            response.setReturnCode(ReturnCode.ERROR);
+            response.addMessage("Error occurred while adding flight schedules.");
+        } else {
+            response.setReturnCode(ReturnCode.SUCCESS);
+            response.addMessage("Flight schedules added successfully.");
+        }
+
+        return response;
     }
 
 
@@ -152,7 +156,7 @@ public class AddFlightScheduleBusinessService {
 
             }
         }
-
+//        TODO add response stuff for this seat allocation
         return seatAllocationDataService.insertSeatAllocations(seatAllocationModels);
     }
 }
