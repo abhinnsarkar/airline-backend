@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -107,7 +108,7 @@ public class FlightScheduleDataService {
                 flightSchedule.setFlightScheduleId((UUID) rs.getObject("flight_schedule_id", UUID.class));
                 flightSchedule.setFlightId((UUID) rs.getObject("flight_id", UUID.class));
                 flightSchedule.setDepartureDate((Date) rs.getObject("departure_date", Date.class));
-                flightSchedule.setDepartureTime((Time) rs.getObject("departure_time", Time.class));
+                flightSchedule.setDepartureTime((LocalTime) rs.getObject("departure_time", LocalTime.class));
 
 
                 return flightSchedule;

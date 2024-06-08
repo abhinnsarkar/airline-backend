@@ -5,7 +5,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.sql.Time;
+import java.time.LocalTime;
+
 import java.util.UUID;
 
 @Entity
@@ -26,13 +27,13 @@ public class FlightScheduleModel {
     private java.util.Date departureDate;
 
     @Column(name = "departure_time")
-    @Schema(description = "Departure Time", example = "15:30:00")
-    private java.sql.Time departureTime;
+    @Schema(description = "Departure LocalTime", example = "15:30:00")
+    private java.time.LocalTime departureTime;
 
     public FlightScheduleModel() {
     }
 
-    public FlightScheduleModel(UUID flightScheduleId, UUID flightId, Date departureDate, Time departureTime) {
+    public FlightScheduleModel(UUID flightScheduleId, UUID flightId, Date departureDate, LocalTime departureTime) {
         this.flightScheduleId = flightScheduleId;
         this.flightId = flightId;
         this.departureDate = departureDate;
@@ -63,11 +64,11 @@ public class FlightScheduleModel {
         this.departureDate = departureDate;
     }
 
-    public Time getDepartureTime() {
+    public LocalTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(Time departureTime) {
+    public void setDepartureTime(LocalTime departureTime) {
         this.departureTime = departureTime;
     }
 }

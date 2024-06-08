@@ -41,7 +41,15 @@ public class FlightScheduleController {
              int month,
              @RequestParam
              @Max(value = 9999, message = "Maximum year is 9999")
-             int year
+             int year,
+             @RequestParam
+             @Min(value = 0, message = "Minimum hour is 0")
+             @Max(value = 23, message = "Maximum month is 23")
+             int hour,
+             @RequestParam
+             @Min(value = 1, message = "Minimum minute is 1")
+             @Max(value = 59, message = "Maximum minute is 59")
+             int minute
              ) {
 
         int currentYear = LocalDate.now().getYear();
@@ -50,7 +58,7 @@ public class FlightScheduleController {
             throw new IllegalArgumentException("Year must be between " + currentYear + " and 9999.");
         }
 
-        var result = postMonthFlightScheduleHandler.handle(flightNumber, month, year);
+        var result = postMonthFlightScheduleHandler.handle(flightNumber, month, year, hour, minute);
 
         HttpStatus httpStatus = result.getReturnCode() == ReturnCode.SUCCESS ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
 

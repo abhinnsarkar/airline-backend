@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
+import java.time.LocalTime;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,9 +44,9 @@ public class AddFlightScheduleBusinessService {
 
 
 
-    public Response<List<FlightScheduleModel>> addFlightSchedule(String flightNumber, Integer month, Integer year) {
+    public Response<List<FlightScheduleModel>> addFlightSchedule(String flightNumber, Integer month, Integer year, Integer hour, Integer minute) {
 
-        Response<List<FlightScheduleModel>> flightSchedulesResponse = this.makeNewScheduleForFlightNumberMonthYear(flightNumber, month, year);
+        Response<List<FlightScheduleModel>> flightSchedulesResponse = this.makeNewScheduleForFlightNumberMonthYear(flightNumber, month, year, hour, minute);
 
         var response = new Response<List<FlightScheduleModel>>();
 
@@ -76,7 +77,7 @@ public class AddFlightScheduleBusinessService {
      * @param  monthNum         the month for which to generate a schedule
      * @return               a list of FlightScheduleModel objects representing the new schedule
      */
-    private Response<List<FlightScheduleModel>> makeNewScheduleForFlightNumberMonthYear(String flightNumber, Integer monthNum, Integer year) {
+    private Response<List<FlightScheduleModel>> makeNewScheduleForFlightNumberMonthYear(String flightNumber, Integer monthNum, Integer year, Integer hour, Integer minute) {
 
 //      go through flight table and find the flight with given number
 //      get its id and model name
@@ -89,7 +90,8 @@ public class AddFlightScheduleBusinessService {
         }
 
 //        TODO Find some method to add time for departure
-        var defaultDepartureTime = new Time(12, 0, 0);
+        LocalTime departureTime = LocalTime.of(hour, minute);
+//        LocalTime time = LocalTime.of(hour, minute);
 
 
 //        int month = Integer.parseInt(monthNum);
@@ -107,7 +109,7 @@ public class AddFlightScheduleBusinessService {
             LocalDate localDate = LocalDate.of(selectedYear, selectedMonth, day);
             Date departureDate = Date.valueOf(localDate);
 
-            var flightSchedule = new FlightScheduleModel(UUID.randomUUID(), flightModels.getFirst().getFlightId(), departureDate, defaultDepartureTime);
+            var flightSchedule = new FlightScheduleModel(UUID.randomUUID(), flightModels.getFirst().getFlightId(), departureDate, departureTime);
 
             var result = flightScheduleDataService.addFlightSchedule(flightSchedule);
 
@@ -137,7 +139,7 @@ public class AddFlightScheduleBusinessService {
 
 
 
-    private Boolean createSeatAllocationsForFlightSchedules(List<FlightScheduleModel> flightSchedules, List<UUID> seatIds) {
+    private Response<Boolean> createSeatAllocationsForFlightSchedules(List<FlightScheduleModel> flightSchedules, List<UUID> seatIds) {
 
 
         var seatAllocationModels = new ArrayList<SeatAllocationModel>();
@@ -156,7 +158,6 @@ public class AddFlightScheduleBusinessService {
 
             }
         }
-//        TODO add response stuff for this seat allocation
         return seatAllocationDataService.insertSeatAllocations(seatAllocationModels);
     }
 }
