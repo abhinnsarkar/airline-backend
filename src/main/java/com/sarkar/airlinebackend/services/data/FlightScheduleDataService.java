@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,27 +29,7 @@ public class FlightScheduleDataService {
         this.template = template;
     }
 
-
-
-//    public Boolean addFlightSchedule(FlightScheduleModel flightScheduleModel) {
-//
-//        String sql = "INSERT INTO flight_schedule (flight_schedule_id, flight_id, departure_date, departure_time) VALUES (?, ?, ?, ?)";
-//
-//        var result = template.update(sql,
-//                flightScheduleModel.getFlightScheduleId(),
-//                flightScheduleModel.getFlightId(),
-//                flightScheduleModel.getDepartureDate(),
-//                flightScheduleModel.getDepartureTime());
-//
-//        if (result > 0) {
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-
-
-
+    @Transactional
     public Response<Boolean> addFlightSchedule(FlightScheduleModel flightScheduleModel) {
         String sql = "INSERT INTO flight_schedule (flight_schedule_id, flight_id, departure_date, departure_time) VALUES (?, ?, ?, ?)";
 

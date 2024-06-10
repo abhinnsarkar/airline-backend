@@ -105,6 +105,8 @@ public class AddFlightScheduleBusinessService {
         List<FlightScheduleModel> flightSchedules = new ArrayList<>();
         boolean hasError = false; // Flag to track if any error occurs
 
+        var response = new Response<List<FlightScheduleModel>>();
+
         for (int day = 1; day <= daysInMonth; day++) {
             LocalDate localDate = LocalDate.of(selectedYear, selectedMonth, day);
             Date departureDate = Date.valueOf(localDate);
@@ -117,18 +119,26 @@ public class AddFlightScheduleBusinessService {
             // Check if the result has an error return code
             if (result.getReturnCode() == ReturnCode.ERROR) {
                 hasError = true; // Set flag to true if error occurs
+                response.addMessage(result.getMessages().getFirst());
             }
 
             flightSchedules.add(flightSchedule);
         }
 
-        var response = new Response<List<FlightScheduleModel>>();
+//        var response = new Response<List<FlightScheduleModel>>();
         response.setData(flightSchedules);
 
         // Set return code based on the flag
         if (hasError) {
+//            response.setReturnCode(ReturnCode.ERROR);
+//            response.addMessage("Error occurred while adding flight schedules.");
+
+
             response.setReturnCode(ReturnCode.ERROR);
-            response.addMessage("Error occurred while adding flight schedules.");
+//            // Using the detailed error message from the data service
+//            response.addMessage("Error occurred while adding flight schedules: " + response.getMessages().get(0));
+
+
         } else {
             response.setReturnCode(ReturnCode.SUCCESS);
             response.addMessage("Flight schedules added successfully.");
