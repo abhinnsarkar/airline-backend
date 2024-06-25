@@ -24,7 +24,7 @@ public class FlightModel {
     @Schema(description = "Route ID", example = "f47ac10b-58cc-4372-a567-0e02b2c3d479")
     private UUID routeId;
 
-    @Column(name = "flight_model")
+    @Column(name = "flight_model_name_key")
     @Schema(description = "Flight Model Name", example = "Boeing 737")
     private String flightModelNameKey;
 
