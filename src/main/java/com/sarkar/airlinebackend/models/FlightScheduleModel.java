@@ -4,7 +4,7 @@ package com.sarkar.airlinebackend.models;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.sql.Date;
 import java.time.LocalTime;
 
 import java.util.UUID;
@@ -24,7 +24,7 @@ public class FlightScheduleModel {
 
     @Column(name = "departure_date")
     @Schema(description = "Departure Date", example = "2005-03-15")
-    private java.util.Date departureDate;
+    private java.sql.Date departureDate;
 
     @Column(name = "departure_time")
     @Schema(description = "Departure LocalTime", example = "15:30:00")

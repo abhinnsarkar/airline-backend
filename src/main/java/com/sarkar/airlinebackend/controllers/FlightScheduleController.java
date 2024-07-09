@@ -1,5 +1,6 @@
 package com.sarkar.airlinebackend.controllers;
 
+import com.sarkar.airlinebackend.DTO.FlightScheduleDTO;
 import com.sarkar.airlinebackend.Responses.Response;
 import com.sarkar.airlinebackend.Responses.ReturnCode;
 import com.sarkar.airlinebackend.handlers.FlightModel.GetFlightModelsHandler;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
+
 @RestController
 @RequestMapping(value = "/flight-schedule")
 @Tag(name = "flight schedule", description = "Operations related to flight schedule etc")
@@ -29,6 +32,81 @@ public class FlightScheduleController {
     GetFlightSchedulesHandler getFlightSchedulesHandler;
     @Autowired
     PostMonthFlightScheduleHandler postMonthFlightScheduleHandler;
+
+
+
+
+
+
+
+
+
+    @GetMapping()
+    @Operation(summary = "fetches all the flight schedules")
+    public ResponseEntity<Response<List<FlightScheduleDTO>>> getAllFlightSchedules
+            (@RequestParam(required = false) String departureLocation,
+             @RequestParam(required = false) String destinationLocation,
+             @RequestParam(required = false) String departureMonth,
+             @RequestParam(required = false) String departureDay,
+             @RequestParam(required = false) String departureYear) {
+
+
+
+
+        if (departureMonth == null) {
+            departureMonth = String.valueOf(new java.sql.Date(System.currentTimeMillis()).toLocalDate().getMonthValue());
+        }
+        if (departureDay == null) {
+            departureDay = String.valueOf(new java.sql.Date(System.currentTimeMillis()).toLocalDate().getDayOfMonth());
+        }
+        if (departureYear == null) {
+            departureYear = String.valueOf(new java.sql.Date(System.currentTimeMillis()).toLocalDate().getYear());
+        }
+
+        int currentYear = LocalDate.now().getYear();
+
+        if (parseInt(departureYear) < currentYear || parseInt(departureYear) > 9999) {
+            throw new IllegalArgumentException("Year must be between " + currentYear + " and 9999.");
+        }
+
+        String departureDate = java.sql.Date.valueOf(String.format("%s-%s-%s", departureYear, departureMonth, departureDay)).toString();
+
+
+
+
+
+        var result = getFlightSchedulesHandler.handle(departureLocation, destinationLocation, departureDate);
+
+        HttpStatus httpStatus = result.getReturnCode() == ReturnCode.SUCCESS ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+
+        Response<List<FlightScheduleDTO>> response = new Response<>();
+        response.setData(result.getData());
+        response.setReturnCode(result.getReturnCode());
+        response.setMessages(result.getMessages()); // Assuming only one message is set
+
+        return ResponseEntity.status(httpStatus).body(response);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @PostMapping(value = "/month")
     @Validated

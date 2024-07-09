@@ -1,4 +1,6 @@
-package com.sarkar.airlinebackend.models;
+package com.sarkar.airlinebackend.DTO;
+
+import com.sarkar.airlinebackend.models.ModelSeatModel;
 
 import java.util.List;
 import java.util.UUID;

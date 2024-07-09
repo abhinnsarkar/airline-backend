@@ -16,7 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.time.LocalTime;
-import java.util.Date;
+import java.sql.Date;
 import java.util.UUID;
 
 @Repository
