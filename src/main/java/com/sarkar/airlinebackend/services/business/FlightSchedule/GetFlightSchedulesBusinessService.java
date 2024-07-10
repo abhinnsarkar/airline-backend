@@ -1,6 +1,7 @@
 package com.sarkar.airlinebackend.services.business.FlightSchedule;
 
 import com.sarkar.airlinebackend.DTO.FlightScheduleDTO;
+import com.sarkar.airlinebackend.DTO.FlightSchedulesAndSeatDTO;
 import com.sarkar.airlinebackend.Responses.Response;
 import com.sarkar.airlinebackend.services.data.GeneralDataService;
 import org.springframework.beans.factory.annotation.Autowired;

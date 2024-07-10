@@ -1,12 +1,11 @@
 package com.sarkar.airlinebackend.controllers;
 
 import com.sarkar.airlinebackend.DTO.FlightScheduleDTO;
+import com.sarkar.airlinebackend.DTO.FlightSchedulesAndSeatDTO;
 import com.sarkar.airlinebackend.Responses.Response;
 import com.sarkar.airlinebackend.Responses.ReturnCode;
-import com.sarkar.airlinebackend.handlers.FlightModel.GetFlightModelsHandler;
 import com.sarkar.airlinebackend.handlers.FlightSchedule.GetFlightSchedulesHandler;
 import com.sarkar.airlinebackend.handlers.FlightSchedule.PostMonthFlightScheduleHandler;
-import com.sarkar.airlinebackend.models.CustomerModel;
 import com.sarkar.airlinebackend.models.FlightScheduleModel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

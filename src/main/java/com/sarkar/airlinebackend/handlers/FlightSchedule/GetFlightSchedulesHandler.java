@@ -1,9 +1,8 @@
 package com.sarkar.airlinebackend.handlers.FlightSchedule;
 
-import com.sarkar.airlinebackend.DTO.FlightInfoDTO;
 import com.sarkar.airlinebackend.DTO.FlightScheduleDTO;
+import com.sarkar.airlinebackend.DTO.FlightSchedulesAndSeatDTO;
 import com.sarkar.airlinebackend.Responses.Response;
-import com.sarkar.airlinebackend.services.business.Flight.GetFlightsBusinessService;
 import com.sarkar.airlinebackend.services.business.FlightSchedule.GetFlightSchedulesBusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

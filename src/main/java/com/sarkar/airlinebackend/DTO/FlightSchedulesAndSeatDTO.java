@@ -1,10 +1,9 @@
 package com.sarkar.airlinebackend.DTO;
 
 import java.sql.Date;
-import java.util.List;
 import java.util.UUID;
 
-public class FlightScheduleDTO {
+public class FlightSchedulesAndSeatDTO {
 
     private UUID flightScheduleId;
     private UUID flightId;
@@ -16,12 +15,16 @@ public class FlightScheduleDTO {
     private String departureLocation;
     private String destinationAirportCode;
     private String destinationLocation;
-    private List<SeatBookingAllocationInfo> seats;
+    private UUID modelSeatId;
+    private String seatNumber;
+    private String seatClass;
+    private UUID seatAllocationId;
+    private Boolean seatAvailable;
 
-    public FlightScheduleDTO() {
+    public FlightSchedulesAndSeatDTO() {
     }
 
-    public FlightScheduleDTO(UUID flightScheduleId, UUID flightId, Date departureDate, String flightNumber, String flightModelNameKey, UUID routeId, String originAirportCode, String departureLocation, String destinationAirportCode, String destinationLocation, List<SeatBookingAllocationInfo> seats) {
+    public FlightSchedulesAndSeatDTO(UUID flightScheduleId, UUID flightId, Date departureDate, String flightNumber, String flightModelNameKey, UUID routeId, String originAirportCode, String departureLocation, String destinationAirportCode, String destinationLocation, UUID modelSeatId, String seatNumber, String seatClass, UUID seatAllocationId, Boolean seatAvailable) {
         this.flightScheduleId = flightScheduleId;
         this.flightId = flightId;
         this.departureDate = departureDate;
@@ -32,7 +35,11 @@ public class FlightScheduleDTO {
         this.departureLocation = departureLocation;
         this.destinationAirportCode = destinationAirportCode;
         this.destinationLocation = destinationLocation;
-        this.seats = seats;
+        this.modelSeatId = modelSeatId;
+        this.seatNumber = seatNumber;
+        this.seatClass = seatClass;
+        this.seatAllocationId = seatAllocationId;
+        this.seatAvailable = seatAvailable;
     }
 
     public UUID getFlightScheduleId() {
@@ -115,11 +122,43 @@ public class FlightScheduleDTO {
         this.destinationLocation = destinationLocation;
     }
 
-    public List<SeatBookingAllocationInfo> getSeats() {
-        return seats;
+    public UUID getModelSeatId() {
+        return modelSeatId;
     }
 
-    public void setSeats(List<SeatBookingAllocationInfo> seats) {
-        this.seats = seats;
+    public void setModelSeatId(UUID modelSeatId) {
+        this.modelSeatId = modelSeatId;
+    }
+
+    public String getSeatNumber() {
+        return seatNumber;
+    }
+
+    public void setSeatNumber(String seatNumber) {
+        this.seatNumber = seatNumber;
+    }
+
+    public String getSeatClass() {
+        return seatClass;
+    }
+
+    public void setSeatClass(String seatClass) {
+        this.seatClass = seatClass;
+    }
+
+    public UUID getSeatAllocationId() {
+        return seatAllocationId;
+    }
+
+    public void setSeatAllocationId(UUID seatAllocationId) {
+        this.seatAllocationId = seatAllocationId;
+    }
+
+    public Boolean getSeatAvailable() {
+        return seatAvailable;
+    }
+
+    public void setSeatAvailable(Boolean seatAvailable) {
+        this.seatAvailable = seatAvailable;
     }
 }

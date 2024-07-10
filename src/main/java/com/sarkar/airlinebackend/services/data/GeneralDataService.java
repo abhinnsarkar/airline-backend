@@ -2,6 +2,7 @@ package com.sarkar.airlinebackend.services.data;
 
 import com.sarkar.airlinebackend.DTO.FlightInfoDTO;
 import com.sarkar.airlinebackend.DTO.FlightScheduleDTO;
+import com.sarkar.airlinebackend.DTO.FlightSchedulesAndSeatDTO;
 import com.sarkar.airlinebackend.DTO.SeatBookingAllocationInfo;
 import com.sarkar.airlinebackend.Responses.Response;
 import com.sarkar.airlinebackend.Responses.ReturnCode;
@@ -12,6 +13,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
@@ -272,6 +274,7 @@ public class GeneralDataService {
 
     public Response<List<FlightScheduleDTO>> getFlightSchedulesByLocationsAndDate(String departureAirportCode, String destinationAirportCode, String departureDate) {
 
+        System.out.println("___________________________________________________________________");
         System.out.println("getFlightSchedulesByLocationsAndDate");
         System.out.println(departureAirportCode);
         System.out.println(destinationAirportCode);
@@ -286,6 +289,7 @@ public class GeneralDataService {
                 "flight.route_id as route_id, " +
                 "route.origin_airport_code as origin_airport_code, " +
                 "origin_airport.city_name as departure_location, " +
+                "route.destination_airport_code as destination_airport_code, " +
                 "destination_airport.city_name as destination_location, " +
                 "model_seat.model_seat_id AS model_seat_id, " +
                 "model_seat.seat_number AS seat_number, " +
@@ -295,43 +299,38 @@ public class GeneralDataService {
                 "FROM flight_schedule " +
                 "JOIN flight ON flight_schedule.flight_id = flight.flight_id " +
                 "JOIN route ON flight.route_id = route.route_id " +
-                "JOIN airport AS origin_airport ON route.origin_airport_code = ? " +
-                "JOIN airport AS destination_airport ON route.destination_airport_code = ? " +
+                "JOIN airport AS origin_airport ON route.origin_airport_code = origin_airport.airport_code " +
+                "JOIN airport AS destination_airport ON route.destination_airport_code = destination_airport.airport_code " +
                 "JOIN model_seat ON flight.flight_model_name_key = model_seat.flight_model_name_key " +
                 "JOIN seat_allocation ON flight_schedule.flight_schedule_id = seat_allocation.flight_schedule_id " +
-                "WHERE flight_schedule.departure_date = ?";
+                "WHERE flight_schedule.departure_date = '2024-05-01'"
+        ;
 
-        Map<UUID, FlightScheduleDTO> flightMap = new HashMap<>();
 
-        RowMapper<FlightScheduleDTO> mapper = new RowMapper<FlightScheduleDTO>() {
+
+        RowMapper<FlightSchedulesAndSeatDTO> mapper = new RowMapper<FlightSchedulesAndSeatDTO>() {
             @Override
-            public FlightScheduleDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
-                UUID flightScheduleId = (UUID) rs.getObject("flight_schedule_id");
-                FlightScheduleDTO flightSchedule = flightMap.get(flightScheduleId);
-                if (flightSchedule == null) {
-                    flightSchedule = new FlightScheduleDTO();
-                    flightSchedule.setFlightScheduleId(flightScheduleId);
-                    flightSchedule.setFlightId((UUID) rs.getObject("flight_id"));
-                    flightSchedule.setDepartureDate(java.sql.Date.valueOf(rs.getDate("departure_date").toLocalDate()));
-                    flightSchedule.setFlightNumber(rs.getString("flight_number"));
-                    flightSchedule.setFlightModelNameKey(rs.getString("flight_model_name_key"));
-                    flightSchedule.setRouteId((UUID) rs.getObject("route_id"));
-                    flightSchedule.setOriginAirportCode(rs.getString("origin_airport_code"));
-                    flightSchedule.setDepartureLocation(rs.getString("departure_location"));
-                    flightSchedule.setDestinationAirportCode(rs.getString("destination_airport_code"));
-                    flightSchedule.setDestinationLocation(rs.getString("destination_location"));
-                    flightSchedule.setSeats(new ArrayList<>());
-                    flightMap.put(flightScheduleId, flightSchedule);
-                }
+            public FlightSchedulesAndSeatDTO mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-                SeatBookingAllocationInfo seatAllocation = new SeatBookingAllocationInfo();
-                seatAllocation.setSeatAllocationId((UUID) rs.getObject("seat_allocation_id"));
-                seatAllocation.setModelSeatId((UUID) rs.getObject("model_seat_id"));
-                seatAllocation.setSeatNumber(rs.getString("seat_number"));
-                seatAllocation.setSeatClass(rs.getString("seat_class"));
-                seatAllocation.setAvailable(rs.getBoolean("seat_available"));
+                 FlightSchedulesAndSeatDTO flightSchedule = new FlightSchedulesAndSeatDTO();
 
-                flightSchedule.getSeats().add(seatAllocation);
+                flightSchedule.setFlightScheduleId((UUID) rs.getObject("flight_schedule_id", UUID.class));
+                flightSchedule.setFlightId((UUID) rs.getObject("flight_id", UUID.class));
+                flightSchedule.setDepartureDate(rs.getDate("departure_date"));
+                flightSchedule.setFlightNumber(rs.getString("flight_number"));
+                flightSchedule.setFlightModelNameKey(rs.getString("flight_model_name_key"));
+                flightSchedule.setRouteId((UUID) rs.getObject("route_id", UUID.class));
+                flightSchedule.setOriginAirportCode(rs.getString("origin_airport_code"));
+                flightSchedule.setDepartureLocation(rs.getString("departure_location"));
+                flightSchedule.setDestinationAirportCode(rs.getString("destination_airport_code"));
+                flightSchedule.setDestinationLocation(rs.getString("destination_location"));
+
+
+                flightSchedule.setModelSeatId((UUID) rs.getObject("model_seat_id", UUID.class));
+                flightSchedule.setSeatNumber(rs.getString("seat_number"));
+                flightSchedule.setSeatClass(rs.getString("seat_class"));
+                flightSchedule.setSeatAllocationId((UUID) rs.getObject("seat_allocation_id", UUID.class));
+                flightSchedule.setSeatAvailable(rs.getBoolean("seat_available"));
 
                 return flightSchedule;
             }
@@ -340,9 +339,68 @@ public class GeneralDataService {
         Response<List<FlightScheduleDTO>> response = new Response<>();
 
         try {
-            List<FlightScheduleDTO> flightSchedules = template.query(sql, mapper, departureAirportCode, destinationAirportCode, departureDate);
+            System.out.println("in the try");
+//            List<FlightScheduleDTO> flightSchedules = template.query(sql, mapper, departureAirportCode, destinationAirportCode, departureDate);
+
+            List<FlightSchedulesAndSeatDTO> flightSchedulesAndSeats = template.query(sql, mapper);
+//            System.out.println(flightSchedulesAndSeats);
+            System.out.println("got the data after the query executed");
+            HashMap<UUID, FlightScheduleDTO> flightSchedulesMap = new HashMap<UUID, FlightScheduleDTO>();
+
+
+            FlightScheduleDTO flightSchedule = new FlightScheduleDTO();
+
+            for (FlightSchedulesAndSeatDTO schedule : flightSchedulesAndSeats) {
+                if (flightSchedulesMap.containsKey(schedule.getFlightScheduleId())){
+
+                    FlightScheduleDTO currentSchedule = flightSchedulesMap.get(schedule.getFlightScheduleId());
+
+                    SeatBookingAllocationInfo seat = new SeatBookingAllocationInfo();
+                    seat.setModelSeatId(schedule.getModelSeatId());
+                    seat.setSeatNumber(schedule.getSeatNumber());
+                    seat.setSeatClass(schedule.getSeatClass());
+                    seat.setAvailable(schedule.getSeatAvailable());
+
+                    currentSchedule.getSeats().add(seat);
+                }
+                else{
+
+                    FlightScheduleDTO currentSchedule = new FlightScheduleDTO();
+
+                    currentSchedule.setFlightScheduleId(schedule.getFlightScheduleId());
+                    currentSchedule.setFlightId(schedule.getFlightId());
+                    currentSchedule.setDepartureDate(schedule.getDepartureDate());
+                    currentSchedule.setFlightNumber(schedule.getFlightNumber());
+                    currentSchedule.setFlightModelNameKey(schedule.getFlightModelNameKey());
+                    currentSchedule.setRouteId(schedule.getRouteId());
+                    currentSchedule.setOriginAirportCode(schedule.getOriginAirportCode());
+                    currentSchedule.setDepartureLocation(schedule.getDepartureLocation());
+                    currentSchedule.setDestinationAirportCode(schedule.getDestinationAirportCode());
+                    currentSchedule.setDestinationLocation(schedule.getDestinationLocation());
+
+                    SeatBookingAllocationInfo seat = new SeatBookingAllocationInfo();
+                    seat.setSeatAllocationId(schedule.getSeatAllocationId());
+                    seat.setFlightScheduleId(schedule.getFlightScheduleId());
+                    seat.setModelSeatId(schedule.getModelSeatId());
+                    seat.setSeatNumber(schedule.getSeatNumber());
+                    seat.setSeatClass(schedule.getSeatClass());
+                    seat.setAvailable(schedule.getSeatAvailable());
+                    seat.setFlightModelNameKey(schedule.getFlightModelNameKey());
+
+                    List<SeatBookingAllocationInfo> seats = new ArrayList<SeatBookingAllocationInfo>();
+                    seats.add(seat);
+                    currentSchedule.setSeats(seats);
+
+                    flightSchedulesMap.put(currentSchedule.getFlightScheduleId(), currentSchedule);
+                }
+
+            }
+
             response.setReturnCode(ReturnCode.SUCCESS);
-            response.setData(new ArrayList<>(flightMap.values()));
+            response.setData(new ArrayList<>(flightSchedulesMap.values()));
+//            var toReturn = new ArrayList<FlightScheduleDTO>();
+//            toReturn.add(new FlightScheduleDTO());
+//            response.setData(toReturn);
             response.addMessage("Flights Schedules fetched successfully.");
         } catch (DataAccessException e) {
             response.setReturnCode(ReturnCode.ERROR);
