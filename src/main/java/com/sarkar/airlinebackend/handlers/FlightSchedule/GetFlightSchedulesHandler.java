@@ -17,7 +17,7 @@ public class GetFlightSchedulesHandler {
 
     public Response<List<FlightScheduleDTO>> handle(String departureLocation, String destinationLocation, String departureDate) {
 
-        System.out.println("in the handle");
+
 
 
         if (departureLocation == null || destinationLocation == null) {

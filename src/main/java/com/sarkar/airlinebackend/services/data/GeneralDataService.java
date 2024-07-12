@@ -274,7 +274,6 @@ public class GeneralDataService {
 
     public Response<List<FlightScheduleDTO>> getFlightSchedulesByLocationsAndDate(String departureAirportCode, String destinationAirportCode, String departureDate) {
 
-        System.out.println("in the data service");
 
         String sql = "SELECT " +
                 "flight_schedule.flight_schedule_id as flight_schedule_id, " +
@@ -340,22 +339,12 @@ public class GeneralDataService {
         Response<List<FlightScheduleDTO>> response = new Response<>();
 
         try {
-            System.out.println("in the try");
-            System.out.println("departure date final " + departureDate);
-            System.out.println(departureAirportCode);
-            System.out.println(destinationAirportCode);
-
-//            String tempDepartureAirportCode = this.getAirportCodeForLocation(departureAirportCode).getData().getFirst();
-//            String tempDestinationAirportCode = this.getAirportCodeForLocation(destinationAirportCode).getData().getFirst();
 
             List<FlightSchedulesAndSeatDTO> flightSchedulesAndSeats = template.query(sql, mapper, departureDate, departureAirportCode, destinationAirportCode);
-
 //            List<FlightSchedulesAndSeatDTO> flightSchedulesAndSeats = template.query(sql, mapper);
-            System.out.println("sql: " + sql);
 
-            System.out.println("flightSchedulesAndSeats " + flightSchedulesAndSeats);
-            System.out.println(" LENGTH flightSchedulesAndSeats " + flightSchedulesAndSeats.toArray().length);
-            System.out.println("got the data after the query executed");
+
+
 
             
             HashMap<UUID, FlightScheduleDTO> flightSchedulesMap = new HashMap<UUID, FlightScheduleDTO>();
@@ -448,14 +437,8 @@ public class GeneralDataService {
 
             response.setReturnCode(ReturnCode.SUCCESS);
             response.setData(new ArrayList<>(flightSchedulesMap.values()));
-            System.out.println("flightSchedulesMap: " + flightSchedulesMap.keySet());
-            for (FlightScheduleDTO flightScheduleDTO : flightSchedulesMap.values()) {
-                System.out.println(flightScheduleDTO.toString());
-            }
-//            var toReturn = new ArrayList<FlightScheduleDTO>();
-//            toReturn.add(new FlightScheduleDTO());
-//            response.setData(toReturn);
             response.addMessage("Flights Schedules fetched successfully.");
+
         } catch (DataAccessException e) {
             response.setReturnCode(ReturnCode.ERROR);
             response.setData(null);
@@ -529,7 +512,7 @@ public class GeneralDataService {
 
 
     public Response<List<String>> getAirportCodeForLocation(String location) {
-        System.out.println("getAirportCodeForLocation: " + location);
+//        System.out.println("getAirportCodeForLocation: " + location);
         try {
             String sql = "SELECT airport.airport_code as airport_code " +
                     "FROM airport " +

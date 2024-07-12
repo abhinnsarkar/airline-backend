@@ -23,8 +23,6 @@ public class GetFlightSchedulesBusinessService {
 
     public Response<List<FlightScheduleDTO>> getFlightSchedulesByLocationsAndDate(String departureLocation, String destinationLocation, String departureDate) {
 
-        System.out.println("in the business service");
-
         String departureAirportCode = this.getAirportCodeForLocation(departureLocation).getData().get(0);
         String destinationAirportCode = this.getAirportCodeForLocation(destinationLocation).getData().get(0);
 

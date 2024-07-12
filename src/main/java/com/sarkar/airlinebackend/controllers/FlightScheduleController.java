@@ -51,11 +51,7 @@ public class FlightScheduleController {
 
 
 
-        System.out.println("leave from " + departureLocation);
-        System.out.println("arrive at " + destinationLocation);
-        System.out.println("leave on month " + departureMonth);
-        System.out.println("leave on day " + departureDay);
-        System.out.println("leave on year " + departureYear);
+
 
         if (departureMonth == null) {
             departureMonth = String.valueOf(new java.sql.Date(System.currentTimeMillis()).toLocalDate().getMonthValue());
@@ -75,7 +71,7 @@ public class FlightScheduleController {
 
         String departureDate = java.sql.Date.valueOf(String.format("%s-%s-%s", departureYear, departureMonth, departureDay)).toString();
 
-        System.out.println("departure date: " + departureDate);
+
 
 
 
