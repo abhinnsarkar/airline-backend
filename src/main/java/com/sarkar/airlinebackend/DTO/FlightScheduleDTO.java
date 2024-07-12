@@ -122,4 +122,21 @@ public class FlightScheduleDTO {
     public void setSeats(List<SeatBookingAllocationInfo> seats) {
         this.seats = seats;
     }
+
+    @Override
+    public String toString() {
+        return "FlightScheduleDTO{" +
+                "flightScheduleId=" + flightScheduleId +
+                ", flightId=" + flightId +
+                ", departureDate=" + departureDate +
+                ", flightNumber='" + flightNumber + '\'' +
+                ", flightModelNameKey='" + flightModelNameKey + '\'' +
+                ", routeId=" + routeId +
+                ", originAirportCode='" + originAirportCode + '\'' +
+                ", departureLocation='" + departureLocation + '\'' +
+                ", destinationAirportCode='" + destinationAirportCode + '\'' +
+                ", destinationLocation='" + destinationLocation + '\'' +
+                ", seats=" + seats +
+                '}';
+    }
 }

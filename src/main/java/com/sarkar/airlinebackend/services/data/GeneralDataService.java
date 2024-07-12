@@ -274,11 +274,7 @@ public class GeneralDataService {
 
     public Response<List<FlightScheduleDTO>> getFlightSchedulesByLocationsAndDate(String departureAirportCode, String destinationAirportCode, String departureDate) {
 
-        System.out.println("___________________________________________________________________");
-        System.out.println("getFlightSchedulesByLocationsAndDate");
-        System.out.println(departureAirportCode);
-        System.out.println(destinationAirportCode);
-        System.out.println(departureDate);
+        System.out.println("in the data service");
 
         String sql = "SELECT " +
                 "flight_schedule.flight_schedule_id as flight_schedule_id, " +
@@ -303,8 +299,13 @@ public class GeneralDataService {
                 "JOIN airport AS destination_airport ON route.destination_airport_code = destination_airport.airport_code " +
                 "JOIN model_seat ON flight.flight_model_name_key = model_seat.flight_model_name_key " +
                 "JOIN seat_allocation ON flight_schedule.flight_schedule_id = seat_allocation.flight_schedule_id " +
-                "WHERE flight_schedule.departure_date = '2024-05-01'"
-        ;
+                "WHERE flight_schedule.departure_date = ? " +
+                "AND origin_airport.airport_code = ? " +
+                "AND destination_airport.airport_code = ?";
+//                "WHERE flight_schedule.departure_date = '2024-07-21' " +
+//                "AND origin_airport.airport_code = 'YVR' " +
+//                "AND destination_airport.airport_code = 'YYZ'"
+//        ;
 
 
 
@@ -340,11 +341,23 @@ public class GeneralDataService {
 
         try {
             System.out.println("in the try");
-//            List<FlightScheduleDTO> flightSchedules = template.query(sql, mapper, departureAirportCode, destinationAirportCode, departureDate);
+            System.out.println("departure date final " + departureDate);
+            System.out.println(departureAirportCode);
+            System.out.println(destinationAirportCode);
 
-            List<FlightSchedulesAndSeatDTO> flightSchedulesAndSeats = template.query(sql, mapper);
-//            System.out.println(flightSchedulesAndSeats);
+//            String tempDepartureAirportCode = this.getAirportCodeForLocation(departureAirportCode).getData().getFirst();
+//            String tempDestinationAirportCode = this.getAirportCodeForLocation(destinationAirportCode).getData().getFirst();
+
+            List<FlightSchedulesAndSeatDTO> flightSchedulesAndSeats = template.query(sql, mapper, departureDate, departureAirportCode, destinationAirportCode);
+
+//            List<FlightSchedulesAndSeatDTO> flightSchedulesAndSeats = template.query(sql, mapper);
+            System.out.println("sql: " + sql);
+
+            System.out.println("flightSchedulesAndSeats " + flightSchedulesAndSeats);
+            System.out.println(" LENGTH flightSchedulesAndSeats " + flightSchedulesAndSeats.toArray().length);
             System.out.println("got the data after the query executed");
+
+            
             HashMap<UUID, FlightScheduleDTO> flightSchedulesMap = new HashMap<UUID, FlightScheduleDTO>();
 
 
@@ -367,25 +380,62 @@ public class GeneralDataService {
 
                     FlightScheduleDTO currentSchedule = new FlightScheduleDTO();
 
+                    System.out.println("________________________________________________________________________________________________________________________________");
+
                     currentSchedule.setFlightScheduleId(schedule.getFlightScheduleId());
+                    System.out.println("flightScheduleId " + schedule.getFlightScheduleId());
+
                     currentSchedule.setFlightId(schedule.getFlightId());
+                    System.out.println("flightId " + schedule.getFlightId());
+
                     currentSchedule.setDepartureDate(schedule.getDepartureDate());
+                    System.out.println("departure date " + schedule.getDepartureDate());
+
                     currentSchedule.setFlightNumber(schedule.getFlightNumber());
+                    System.out.println("flight number " + schedule.getFlightNumber());
+
                     currentSchedule.setFlightModelNameKey(schedule.getFlightModelNameKey());
+                    System.out.println("flight model name key " + schedule.getFlightModelNameKey());
+
                     currentSchedule.setRouteId(schedule.getRouteId());
+                    System.out.println("route id " + schedule.getRouteId());
+
                     currentSchedule.setOriginAirportCode(schedule.getOriginAirportCode());
+                    System.out.println("origin airport code " + schedule.getOriginAirportCode());
+
                     currentSchedule.setDepartureLocation(schedule.getDepartureLocation());
+                    System.out.println("departure location " + schedule.getDepartureLocation());
+
                     currentSchedule.setDestinationAirportCode(schedule.getDestinationAirportCode());
+                    System.out.println("destination airport code " + schedule.getDestinationAirportCode());
+
                     currentSchedule.setDestinationLocation(schedule.getDestinationLocation());
+                    System.out.println("destination location " + schedule.getDestinationLocation());
 
                     SeatBookingAllocationInfo seat = new SeatBookingAllocationInfo();
+
                     seat.setSeatAllocationId(schedule.getSeatAllocationId());
+                    System.out.println("seat allocation id " + schedule.getSeatAllocationId());
+
                     seat.setFlightScheduleId(schedule.getFlightScheduleId());
+                    System.out.println("flight schedule id " + schedule.getFlightScheduleId());
+
                     seat.setModelSeatId(schedule.getModelSeatId());
+                    System.out.println("model seat id " + schedule.getModelSeatId());
+
                     seat.setSeatNumber(schedule.getSeatNumber());
+                    System.out.println("seat number " + schedule.getSeatNumber());
+
                     seat.setSeatClass(schedule.getSeatClass());
+                    System.out.println("seat class " + schedule.getSeatClass());
+
                     seat.setAvailable(schedule.getSeatAvailable());
+                    System.out.println("seat available " + schedule.getSeatAvailable());
+
                     seat.setFlightModelNameKey(schedule.getFlightModelNameKey());
+                    System.out.println("flight model name key " + schedule.getFlightModelNameKey());
+
+                    System.out.println("________________________________________________________________________________________________________________________________");
 
                     List<SeatBookingAllocationInfo> seats = new ArrayList<SeatBookingAllocationInfo>();
                     seats.add(seat);
@@ -398,6 +448,10 @@ public class GeneralDataService {
 
             response.setReturnCode(ReturnCode.SUCCESS);
             response.setData(new ArrayList<>(flightSchedulesMap.values()));
+            System.out.println("flightSchedulesMap: " + flightSchedulesMap.keySet());
+            for (FlightScheduleDTO flightScheduleDTO : flightSchedulesMap.values()) {
+                System.out.println(flightScheduleDTO.toString());
+            }
 //            var toReturn = new ArrayList<FlightScheduleDTO>();
 //            toReturn.add(new FlightScheduleDTO());
 //            response.setData(toReturn);
@@ -475,6 +529,7 @@ public class GeneralDataService {
 
 
     public Response<List<String>> getAirportCodeForLocation(String location) {
+        System.out.println("getAirportCodeForLocation: " + location);
         try {
             String sql = "SELECT airport.airport_code as airport_code " +
                     "FROM airport " +
@@ -487,13 +542,14 @@ public class GeneralDataService {
             var response = new Response<List<String>>();
             response.setData(queryResults);
 
-            if (queryResults.isEmpty() || queryResults.size() > 1) {
+            if (queryResults.size() != 1) {
                 response.setReturnCode(ReturnCode.ERROR);
-                response.addMessage("Incorrecr airport code(s) found for location: " + location);
+                response.addMessage("Incorrect airport code(s) found for location: " + location);
                 return response;
             }
 
             response.setReturnCode(ReturnCode.SUCCESS);
+            response.getData().add(queryResults.getFirst());
             response.addMessage("Airport Code retrieved successfully.");
 
             return response;

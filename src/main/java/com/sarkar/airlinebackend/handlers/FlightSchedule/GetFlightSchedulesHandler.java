@@ -17,6 +17,8 @@ public class GetFlightSchedulesHandler {
 
     public Response<List<FlightScheduleDTO>> handle(String departureLocation, String destinationLocation, String departureDate) {
 
+        System.out.println("in the handle");
+
 
         if (departureLocation == null || destinationLocation == null) {
             // If either location is null, fetch all schedules from departure date onwards
@@ -32,10 +34,10 @@ public class GetFlightSchedulesHandler {
 
         } else { //meaning both lcoations are provided
             // Call business service with specific location and date parameters
-            System.out.println("getFlightSchedulesBusinessService has both locations");
-            System.out.println(departureLocation);
-            System.out.println(destinationLocation);
-            System.out.println(departureDate);
+//            System.out.println("getFlightSchedulesBusinessService has both locations");
+//            System.out.println(departureLocation);
+//            System.out.println(destinationLocation);
+//            System.out.println(departureDate);
             return getFlightSchedulesBusinessService.getFlightSchedulesByLocationsAndDate(departureLocation, destinationLocation, departureDate);
         }
 

@@ -45,12 +45,17 @@ public class FlightScheduleController {
     public ResponseEntity<Response<List<FlightScheduleDTO>>> getAllFlightSchedules
             (@RequestParam(required = false) String departureLocation,
              @RequestParam(required = false) String destinationLocation,
-             @RequestParam(required = false) String departureMonth,
+             @RequestParam(required = false) String departureMonth, //expecting to come in string format as a number ie: 5
              @RequestParam(required = false) String departureDay,
              @RequestParam(required = false) String departureYear) {
 
 
 
+        System.out.println("leave from " + departureLocation);
+        System.out.println("arrive at " + destinationLocation);
+        System.out.println("leave on month " + departureMonth);
+        System.out.println("leave on day " + departureDay);
+        System.out.println("leave on year " + departureYear);
 
         if (departureMonth == null) {
             departureMonth = String.valueOf(new java.sql.Date(System.currentTimeMillis()).toLocalDate().getMonthValue());
@@ -70,20 +75,24 @@ public class FlightScheduleController {
 
         String departureDate = java.sql.Date.valueOf(String.format("%s-%s-%s", departureYear, departureMonth, departureDay)).toString();
 
+        System.out.println("departure date: " + departureDate);
+
 
 
 
 
         var result = getFlightSchedulesHandler.handle(departureLocation, destinationLocation, departureDate);
 
+        System.out.println(result.getMessages());
+
         HttpStatus httpStatus = result.getReturnCode() == ReturnCode.SUCCESS ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
 
-        Response<List<FlightScheduleDTO>> response = new Response<>();
-        response.setData(result.getData());
-        response.setReturnCode(result.getReturnCode());
-        response.setMessages(result.getMessages()); // Assuming only one message is set
+//        Response<List<FlightScheduleDTO>> response = new Response<>();
+//        response.setData(result.getData());
+//        response.setReturnCode(result.getReturnCode());
+//        response.setMessages(result.getMessages()); // Assuming only one message is set
 
-        return ResponseEntity.status(httpStatus).body(response);
+        return ResponseEntity.status(httpStatus).body(result);
 
     }
 
