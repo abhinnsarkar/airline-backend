@@ -298,9 +298,9 @@ public class GeneralDataService {
                 "JOIN airport AS destination_airport ON route.destination_airport_code = destination_airport.airport_code " +
                 "JOIN model_seat ON flight.flight_model_name_key = model_seat.flight_model_name_key " +
                 "JOIN seat_allocation ON flight_schedule.flight_schedule_id = seat_allocation.flight_schedule_id " +
-                "WHERE flight_schedule.departure_date = ? " +
-                "AND origin_airport.airport_code = ? " +
-                "AND destination_airport.airport_code = ?";
+                String.format("WHERE flight_schedule.departure_date = '%s' ", departureDate)  +
+                String.format("AND origin_airport.airport_code = '%s' ", departureAirportCode) +
+                String.format("AND destination_airport.airport_code = '%s' ", destinationAirportCode);
 //                "WHERE flight_schedule.departure_date = '2024-07-21' " +
 //                "AND origin_airport.airport_code = 'YVR' " +
 //                "AND destination_airport.airport_code = 'YYZ'"
@@ -340,8 +340,9 @@ public class GeneralDataService {
 
         try {
 
-            List<FlightSchedulesAndSeatDTO> flightSchedulesAndSeats = template.query(sql, mapper, departureDate, departureAirportCode, destinationAirportCode);
-//            List<FlightSchedulesAndSeatDTO> flightSchedulesAndSeats = template.query(sql, mapper);
+            System.out.println("sql query: " + sql);
+//            List<FlightSchedulesAndSeatDTO> flightSchedulesAndSeats = template.query(sql, mapper, departureDate, departureAirportCode, destinationAirportCode);
+            List<FlightSchedulesAndSeatDTO> flightSchedulesAndSeats = template.query(sql, mapper);
 
 
 
