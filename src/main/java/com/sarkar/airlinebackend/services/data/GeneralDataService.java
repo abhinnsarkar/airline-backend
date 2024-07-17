@@ -351,7 +351,7 @@ public class GeneralDataService {
             HashMap<UUID, FlightScheduleDTO> flightSchedulesMap = new HashMap<UUID, FlightScheduleDTO>();
 
 
-            FlightScheduleDTO flightSchedule = new FlightScheduleDTO();
+//            FlightScheduleDTO flightSchedule = new FlightScheduleDTO();
 
             for (FlightSchedulesAndSeatDTO schedule : flightSchedulesAndSeats) {
                 if (flightSchedulesMap.containsKey(schedule.getFlightScheduleId())){

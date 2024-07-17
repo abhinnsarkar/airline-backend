@@ -83,7 +83,7 @@ public class FlightScheduleController {
 
         HttpStatus httpStatus = result.getReturnCode() == ReturnCode.SUCCESS ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
 
-        System.out.println("Result from controller: " + result.getData());
+        System.out.println("Result from controller : " + result.getData());
 
         return ResponseEntity.status(httpStatus).body(result);
 

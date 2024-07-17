@@ -32,7 +32,7 @@ public class GetFlightSchedulesHandler {
 //            return getFlightSchedulesBusinessService.getAllFlightSchedulesAfterDepartureDate(departureDate);
 
 
-        } else { //meaning both lcoations are provided
+        } else { //meaning both locations are provided
             // Call business service with specific location and date parameters
 //            System.out.println("getFlightSchedulesBusinessService has both locations");
 //            System.out.println(departureLocation);
