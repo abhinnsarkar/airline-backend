@@ -27,7 +27,7 @@ public class GetFlightSchedulesBusinessService {
         String destinationAirportCode = this.getAirportCodeForLocation(destinationLocation).getData().get(0);
 
         var allFlights = this.generalDataService.getFlightSchedulesByLocationsAndDate(departureAirportCode, destinationAirportCode, departureDate);
-
+        System.out.println("Result from business: " + allFlights.getData());
         return allFlights;
     }
 

@@ -359,6 +359,9 @@ public class GeneralDataService {
                     FlightScheduleDTO currentSchedule = flightSchedulesMap.get(schedule.getFlightScheduleId());
 
                     SeatBookingAllocationInfo seat = new SeatBookingAllocationInfo();
+
+                    seat.setSeatAllocationId(schedule.getSeatAllocationId());
+                    seat.setFlightScheduleId(schedule.getFlightScheduleId());
                     seat.setModelSeatId(schedule.getModelSeatId());
                     seat.setSeatNumber(schedule.getSeatNumber());
                     seat.setSeatClass(schedule.getSeatClass());
@@ -438,6 +441,7 @@ public class GeneralDataService {
 
             response.setReturnCode(ReturnCode.SUCCESS);
             response.setData(new ArrayList<>(flightSchedulesMap.values()));
+            System.out.println("result from database " + new ArrayList<>(flightSchedulesMap.values()) );
             response.addMessage("Flights Schedules fetched successfully.");
 
         } catch (DataAccessException e) {

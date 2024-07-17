@@ -38,7 +38,9 @@ public class GetFlightSchedulesHandler {
 //            System.out.println(departureLocation);
 //            System.out.println(destinationLocation);
 //            System.out.println(departureDate);
-            return getFlightSchedulesBusinessService.getFlightSchedulesByLocationsAndDate(departureLocation, destinationLocation, departureDate);
+            var result = getFlightSchedulesBusinessService.getFlightSchedulesByLocationsAndDate(departureLocation, destinationLocation, departureDate);
+            System.out.println("Result from handler: " + result.getData());
+            return result;
         }
 
 
