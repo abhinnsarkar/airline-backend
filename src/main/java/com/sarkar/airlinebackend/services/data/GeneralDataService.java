@@ -275,36 +275,73 @@ public class GeneralDataService {
     public Response<List<FlightScheduleDTO>> getFlightSchedulesByLocationsAndDate(String departureAirportCode, String destinationAirportCode, String departureDate) {
 
 
+//        String sql = "SELECT " +
+//                "flight_schedule.flight_schedule_id as flight_schedule_id, " +
+//                "flight.flight_id as flight_id, " +
+//                "flight_schedule.departure_date as departure_date, " +
+//                "flight.flight_number as flight_number, " +
+//                "flight.flight_model_name_key as flight_model_name_key, " +
+//                "flight.route_id as route_id, " +
+//                "route.origin_airport_code as origin_airport_code, " +
+//                "origin_airport.city_name as departure_location, " +
+//                "route.destination_airport_code as destination_airport_code, " +
+//                "destination_airport.city_name as destination_location, " +
+//                "model_seat.model_seat_id AS model_seat_id, " +
+//                "model_seat.seat_number AS seat_number, " +
+//                "model_seat.seat_class AS seat_class, " +
+//                "seat_allocation.seat_allocation_id AS seat_allocation_id, " +
+//                "seat_allocation.available AS seat_available " +
+//                "FROM flight_schedule " +
+//                "JOIN flight ON flight_schedule.flight_id = flight.flight_id " +
+//                "JOIN route ON flight.route_id = route.route_id " +
+//                "JOIN airport AS origin_airport ON route.origin_airport_code = origin_airport.airport_code " +
+//                "JOIN airport AS destination_airport ON route.destination_airport_code = destination_airport.airport_code " +
+//                "JOIN model_seat ON flight.flight_model_name_key = model_seat.flight_model_name_key " +
+//                "JOIN seat_allocation ON flight_schedule.flight_schedule_id = seat_allocation.flight_schedule_id " +
+//                String.format("WHERE flight_schedule.departure_date = '%s' ", departureDate)  +
+//                String.format("AND origin_airport.airport_code = '%s' ", departureAirportCode) +
+//                String.format("AND destination_airport.airport_code = '%s' ", destinationAirportCode);
+////                "WHERE flight_schedule.departure_date = '2024-07-21' " +
+////                "AND origin_airport.airport_code = 'YVR' " +
+////                "AND destination_airport.airport_code = 'YYZ'"
+////        ;
+
         String sql = "SELECT " +
-                "flight_schedule.flight_schedule_id as flight_schedule_id, " +
-                "flight.flight_id as flight_id, " +
-                "flight_schedule.departure_date as departure_date, " +
-                "flight.flight_number as flight_number, " +
-                "flight.flight_model_name_key as flight_model_name_key, " +
-                "flight.route_id as route_id, " +
-                "route.origin_airport_code as origin_airport_code, " +
-                "origin_airport.city_name as departure_location, " +
-                "route.destination_airport_code as destination_airport_code, " +
-                "destination_airport.city_name as destination_location, " +
-                "model_seat.model_seat_id AS model_seat_id, " +
-                "model_seat.seat_number AS seat_number, " +
-                "model_seat.seat_class AS seat_class, " +
-                "seat_allocation.seat_allocation_id AS seat_allocation_id, " +
-                "seat_allocation.available AS seat_available " +
-                "FROM flight_schedule " +
-                "JOIN flight ON flight_schedule.flight_id = flight.flight_id " +
-                "JOIN route ON flight.route_id = route.route_id " +
-                "JOIN airport AS origin_airport ON route.origin_airport_code = origin_airport.airport_code " +
-                "JOIN airport AS destination_airport ON route.destination_airport_code = destination_airport.airport_code " +
-                "JOIN model_seat ON flight.flight_model_name_key = model_seat.flight_model_name_key " +
-                "JOIN seat_allocation ON flight_schedule.flight_schedule_id = seat_allocation.flight_schedule_id " +
-                String.format("WHERE flight_schedule.departure_date = '%s' ", departureDate)  +
-                String.format("AND origin_airport.airport_code = '%s' ", departureAirportCode) +
-                String.format("AND destination_airport.airport_code = '%s' ", destinationAirportCode);
-//                "WHERE flight_schedule.departure_date = '2024-07-21' " +
-//                "AND origin_airport.airport_code = 'YVR' " +
-//                "AND destination_airport.airport_code = 'YYZ'"
-//        ;
+        "flight_schedule.flight_schedule_id AS flight_schedule_id, " +
+        "flight.flight_id AS flight_id, " +
+        "flight_schedule.departure_date AS departure_date, " +
+        "flight.flight_number AS flight_number, " +
+        "flight.flight_model_name_key AS flight_model_name_key, " +
+        "flight.route_id AS route_id, " +
+        "route.origin_airport_code AS origin_airport_code, " +
+        "origin_airport.city_name AS departure_location, " +
+        "route.destination_airport_code AS destination_airport_code, " +
+        "destination_airport.city_name AS destination_location, " +
+        "model_seat.model_seat_id AS model_seat_id, " +
+        "model_seat.seat_number AS seat_number, " +
+        "model_seat.seat_class AS seat_class, " +
+        "seat_allocation.seat_allocation_id AS seat_allocation_id, " +
+        "seat_allocation.available AS seat_available " +
+        "FROM " +
+        "flight_schedule " +
+        "JOIN " +
+        "flight ON flight_schedule.flight_id = flight.flight_id " +
+        "JOIN " +
+        "route ON flight.route_id = route.route_id " +
+        "JOIN " +
+        "airport AS origin_airport ON route.origin_airport_code = origin_airport.airport_code " +
+        "JOIN " +
+        "airport AS destination_airport ON route.destination_airport_code = destination_airport.airport_code " +
+        "JOIN " +
+        "seat_allocation ON flight_schedule.flight_schedule_id = seat_allocation.flight_schedule_id " +
+        "JOIN " +
+        "model_seat ON seat_allocation.model_seat_id = model_seat.model_seat_id " +
+        String.format("WHERE flight_schedule.departure_date = '%s' ", departureDate)  +
+        String.format("AND origin_airport.airport_code = '%s' ", departureAirportCode) +
+        String.format("AND destination_airport.airport_code = '%s' ", destinationAirportCode)
+        ;
+
+
 
 
 
@@ -439,10 +476,12 @@ public class GeneralDataService {
 
             }
 
+            var data = new ArrayList<>(flightSchedulesMap.values());
+
             response.setReturnCode(ReturnCode.SUCCESS);
-            response.setData(new ArrayList<>(flightSchedulesMap.values()));
+            response.setData(data);
             System.out.println("result from database " + new ArrayList<>(flightSchedulesMap.values()) );
-            response.addMessage("Flights Schedules fetched successfully.");
+            response.addMessage(data.size() > 0 ? "Flight schedules retrieved successfully." : "No flight schedules found.");
 
         } catch (DataAccessException e) {
             response.setReturnCode(ReturnCode.ERROR);
