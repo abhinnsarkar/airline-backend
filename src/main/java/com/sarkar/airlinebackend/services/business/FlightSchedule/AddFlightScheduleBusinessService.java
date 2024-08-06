@@ -44,6 +44,16 @@ public class AddFlightScheduleBusinessService {
 
 
 
+    /**
+     * Adds a new flight schedule based on the provided flight details.
+     *
+     * @param  flightNumber  the flight number for which to add a schedule
+     * @param  month         the month of the schedule
+     * @param  year          the year of the schedule
+     * @param  hour          the hour of the schedule
+     * @param  minute        the minute of the schedule
+     * @return               a Response object containing the list of FlightScheduleModel objects
+     */
     public Response<List<FlightScheduleModel>> addFlightSchedule(String flightNumber, Integer month, Integer year, Integer hour, Integer minute) {
 
         Response<List<FlightScheduleModel>> flightSchedulesResponse = this.makeNewScheduleForFlightNumberMonthYear(flightNumber, month, year, hour, minute);
@@ -71,7 +81,7 @@ public class AddFlightScheduleBusinessService {
 
 
     /**
-     * Generates a new schedule for a given flight number and month.
+     * Generates a new schedule for a given flight number and month. but doesn't insert it into the database
      *
      * @param  flightNumber  the flight number for which to generate a schedule
      * @param  monthNum         the month for which to generate a schedule
